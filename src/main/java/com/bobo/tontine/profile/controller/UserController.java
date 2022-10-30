@@ -6,6 +6,7 @@ import com.bobo.tontine.profile.entity.User;
 import com.bobo.tontine.profile.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,6 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/getAll")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         //URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(BASE_URL+"/getAll").toUriString());
         return ResponseEntity.ok(userService.getAllUsers());
