@@ -1,5 +1,7 @@
 package com.bobo.tontine.profile.entity;
 
+import com.bobo.tontine.group.entity.Group;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,4 +41,6 @@ public class User {
     )
     private List<Role> roles;
 
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "members")
+    private List<Group> groups;
 }

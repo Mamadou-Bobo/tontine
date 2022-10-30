@@ -53,5 +53,7 @@ public class RoleServiceImpl implements RoleService {
                 new ResourceNotFoundException(username + " doesn't exist"));
 
         user.getRoles().add(role);
+
+        userRepository.save(user);
     }
 }

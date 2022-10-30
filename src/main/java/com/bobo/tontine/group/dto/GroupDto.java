@@ -1,14 +1,14 @@
-package com.bobo.tontine.profile.dto;
+package com.bobo.tontine.group.dto;
 
 import lombok.Data;
 
 /**
- * @author Mamadou Bobo on 21/10/2022
+ * @author Mamadou Bobo on 28/10/2022
  * @Project Tontine
  */
 
 @Data
-public class RoleDto {
+public class GroupDto {
     private String name;
     private String username;
 }

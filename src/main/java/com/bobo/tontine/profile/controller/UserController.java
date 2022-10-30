@@ -29,7 +29,7 @@ public class UserController {
 
     @PostMapping("/add")
     public ResponseEntity<User> addUser(@RequestBody UserDto userDto) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(BASE_URL+"/add").toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(BASE_URL+"/user/add").toUriString());
         return ResponseEntity.created(uri).body(userService.addUser(UserConverter.convertUserDtoToEntity(userDto)));
     }
 
