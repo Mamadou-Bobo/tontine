@@ -32,7 +32,7 @@ public class Group {
     private Long id;
     private String name;
     private Date createdAt;
-    private Long createBy;
+    private Long createdBy;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)

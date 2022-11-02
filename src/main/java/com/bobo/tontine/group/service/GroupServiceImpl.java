@@ -42,25 +42,27 @@ public class GroupServiceImpl implements GroupService {
 
         User user = userRepository.findByUsername(principal.getName()).get();
 
-        if(user.getGroups().stream().filter(userGroup -> userGroup.getName().equals(group.getName())).count() > 0) {
-            return new ResponseEntity<>("You already a created group " + group.getName(), HttpStatus.BAD_REQUEST);
+        if(groupRepository.findGroupCreatorByUsername(principal.getName()) != null) {
+            return new ResponseEntity<>("You already have a group with the name " + group.getName(), HttpStatus.BAD_REQUEST);
         }
 
-        group.setCreateBy(user.getId());
+        group.setCreatedBy(user.getId());
         group.setCreatedAt(new Date());
 
         return ResponseEntity.ok().body(groupRepository.save(group));
     }
 
     @Override
-    public ResponseEntity<Object> addUserToGroup(String username, String groupName) {
+    public ResponseEntity<Object> addUserToGroup(String username, String groupName, String groupCreatorUsername) {
         log.info("adding user {} to a new group", username);
+
+        Group group = groupRepository.findGroupCreatorByUsername(groupCreatorUsername);
 
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new ResourceNotFoundException("User " + username + " does not exist"));
 
-        Group group = groupRepository.findByName(groupName).orElseThrow(() ->
-                new ResourceNotFoundException("Group " + groupName + " does not exist"));
+        //Group group = groupRepository.findByName(groupName).orElseThrow(() ->
+                //new ResourceNotFoundException("Group " + groupName + " does not exist"));
 
         if(group.getMembers().contains(user)) {
             return ResponseEntity.badRequest().body("User " + username + " already exist in " +

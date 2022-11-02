@@ -11,4 +11,5 @@ import lombok.Data;
 public class GroupDto {
     private String name;
     private String username;
+    private String groupCreatorUsername;
 }

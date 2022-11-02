@@ -31,10 +31,10 @@ public class GroupController {
         return ResponseEntity.created(uri).body(groupService.addGroup(GroupConverter.convertGroupDtoToEntity(groupDto),principal));
     }
 
-    @PutMapping("/add-member")
+    @PostMapping("/add-member")
     public ResponseEntity<Object> addUserToGroup(@RequestBody GroupDto groupDto) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(BASE_URL+"/group/add-member").toUriString());
-        return ResponseEntity.created(uri).body(groupService.addUserToGroup(groupDto.getUsername(),groupDto.getName()));
+        return ResponseEntity.created(uri).body(groupService.addUserToGroup(groupDto.getUsername(),groupDto.getName(),groupDto.getGroupCreatorUsername()));
     }
 
 }
