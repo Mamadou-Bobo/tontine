@@ -4,6 +4,8 @@ import com.bobo.tontine.profile.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,7 +24,8 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
-@ToString
+@DynamicInsert
+@DynamicUpdate
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
