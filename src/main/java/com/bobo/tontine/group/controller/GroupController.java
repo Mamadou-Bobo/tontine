@@ -2,7 +2,6 @@ package com.bobo.tontine.group.controller;
 
 import com.bobo.tontine.group.converter.GroupConverter;
 import com.bobo.tontine.group.dto.GroupDto;
-import com.bobo.tontine.group.entity.Group;
 import com.bobo.tontine.group.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

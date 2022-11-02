@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  * @author Mamadou Bobo on 28/10/2022
@@ -31,12 +32,19 @@ public class GroupServiceImpl implements GroupService {
     public ResponseEntity<Object> addGroup(Group group, Principal principal) {
         log.info("adding group {}", group.getName());
 
-        if(groupRepository.findByName(group.getName()).isPresent()) {
-            return new ResponseEntity<>("Group " + group.getName() + " already exists", HttpStatus.BAD_REQUEST);
+        if(group.getName().length() < 3) {
+            return ResponseEntity.badRequest().body("Please insert at least 3 characters");
         }
 
-        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() ->
-                new ResourceNotFoundException("User " + principal.getName() + " does not exist"));
+        if(userRepository.findByUsername(principal.getName()).isEmpty()) {
+            return ResponseEntity.badRequest().body("User " + principal.getName() + " not found");
+        }
+
+        User user = userRepository.findByUsername(principal.getName()).get();
+
+        if(user.getGroups().stream().filter(userGroup -> userGroup.getName().equals(group.getName())).count() > 0) {
+            return new ResponseEntity<>("You already a created group " + group.getName(), HttpStatus.BAD_REQUEST);
+        }
 
         group.setCreateBy(user.getId());
         group.setCreatedAt(new Date());
@@ -60,7 +68,8 @@ public class GroupServiceImpl implements GroupService {
         }
 
         group.getMembers().add(user);
+        groupRepository.save(group);
 
-        return ResponseEntity.ok(groupRepository.save(group));
+        return ResponseEntity.ok("User " + username + " added with success");
     }
 }
